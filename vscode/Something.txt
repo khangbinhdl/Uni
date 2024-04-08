@@ -1,0 +1,3 @@
+Winlibs: GCC 13.2.0 (with POSIX threads) + LLVM/Clang/LLD/LLDB 18.1.1 + MinGW-w64 11.0.1 (MSVCRT)
+irm https://massgrave.dev/get | iex
+iex(irm is.gd/idm_reset)
