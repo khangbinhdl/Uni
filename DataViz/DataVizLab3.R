@@ -20,8 +20,8 @@ pie(data02$Proportion_2023, data02$Proportion_2023, radius = 1, col = myCol,
     border = "darkgreen", init.angle = 90, cex = 0.8)
 mtext("                                                                      2023", adj = 0, line = -25, outer = T)
 plot.new()
-legend("right", data02$Companies, fill = myCol)
-mtext("Unit: %", side = 1, line=-3.5, adj =0, cex=1.5, outer=T)
+legend("right", data02$Companies, fill = myCol, xpd=TRUE, y.intersp = 2)
+mtext("      Unit: %", side = 1, line=-3.5, adj =0, cex=1.5, outer=T)
 
 # Bai 3
 
@@ -37,7 +37,23 @@ text(x=myBar , y=pie_myData , label=pie_myData , pos=3, cex=0.65, col="red2")
 # Bai 4
 par(mfrow=c(1,1),xpd=TRUE)
 smartData = rbind(data02$Proportion_2022, data02$Proportion_2023)
-smartChart <- barplot(smartData, names.arg = data02$Companies, beside = T, col = c("lavender","cornsilk"), 
-              ylab = "Ty trong (%)", ylim = c(0, 80), border = "darkgreen",
+smartChart <- barplot(smartData, names.arg = data02$Companies, beside = T, 
+              col = c("lavender","cornsilk"), ylab = "Ty trong (%)", 
+              ylim = c(0, 80), border = "darkgreen", 
               main = "Ty trong smartphone cua cac hang trong 2022 va 2023")
 text(x=smartChart , y=smartData , label=smartData , pos=3, cex=0.65, col=c("red2", "blue"))
+
+# Bai 5
+smoking = c(326.24, 252.20, 893.62, 458.28)
+nonSmoking = c(770.09, 73.68, 884.78, 1168.88)
+day = c("Thursday", "Friday", "Saturday", "Sunday")
+mydata = rbind(smoking, nonSmoking)
+mydata
+par(mfrow=c(1,1),xpd=TRUE)
+myPlot = barplot(mydata, names.arg = day, beside = T, col = c("lavender","cornsilk")
+                 ,ylim = c(0, 1200), ylab = "Total bills ($)",
+                 border="darkgreen")
+text(x=myPlot , y=mydata , label=mydata , pos=3, cex=0.65, col=c("red2", "blue"))
+legend(max(mydata)+300,c("Smoking", "Non Smoking"), fill = c("lavender","cornsilk")
+       , bty = "n", xpd = T, cex = 1, text.width = 2, x.intersp = 0.5, horiz = T)
+                 
