@@ -7,148 +7,152 @@
 # #*****************************************
 ## Bai 1:
 
-# 1.1
-mydata_ex1 <- read.csv('D:/DH/Học kì 2/TQHDL/SmartPhoneMarket2022-2023.csv')
+mycol_1 <- c("lavender", "lightblue", "mistyrose",
+           "cornsilk","orange3",
+           "lightcyan", " darkolivegreen 3", "yellow2","navy","red4")
+mycol_2 <- c("lavender", "cornsilk")
+
+# 1.1 
+mydata_ex1 <- read.csv('D:/DH/Học kì 2/TQHDL/Data/SmartPhoneMarket2022-2023.csv', header = T)
 
 # 1.2
-myCol <- c("lavender", "lightblue", "mistyrose",
-     "cornsilk","orange3",
-     "lightcyan", " darkolivegreen 3", "yellow2","navy","red4")
 
-pie(mydata_ex1$Proportion_2023, mydata_ex1$Companies, border = 'darkgreen', 
-    col = myCol, init.angle = 90, radius = 1, cex = 0.5)
-mtext("Ty trong smartphone cua cac hang nam 2023", side = 1)
+pie(mydata_ex1$Proportion_2023, mydata_ex1$Companies, radius = 1, 
+    init.angle = 90, cex = 0.5, col = mycol_1, border = 'darkgreen')
+mtext("Ty trong thi phan smartphone cac hang trong nam 2023", side = 1)
 
 # 1.3
-mydata <- rbind(mydata_ex1$Proportion_2022, mydata_ex1$Proportion_2023)
-plot1.3 <- barplot(mydata, names.arg = mydata_ex1$Companies,
-        col = c("lavender","cornsilk"),
-        beside = T, ylab = "Ty trong (%)", border = 'darkgreen', 
-        ylim = c(0, 80))
-text(x = plot1.3, y = mydata, label = mydata, pos = 3, cex = 0.65, col = "red2")
-legend(plot1.3[1, 6], 60, legend = c("2022", "2023"), 
-       x.intersp=0.2, xpd=TRUE , bty="n", cex=1, fill=c("lavender","cornsilk"), 
-       text.width=1)
+
+mydata_1.3 <- rbind(mydata_ex1$Proportion_2022, mydata_ex1$Proportion_2023)
+mybar_1.3 <- barplot(mydata_1.3, names.arg = mydata_ex1$Companies, 
+                     beside = T, col = mycol_2, border = 'darkgreen',
+                     ylab = "Ti trong (%)", ylim = c(0, 80),  
+                     main = "Ty trong thi phan smartphone giua cac hang trong nam 2022 va 2023")
+legend(mybar_1.3[1,6], 60, legend = c("2022", "2023"), 
+       horiz = F, fill = mycol_2, xpd = T, bty = "n")
+text(x = mybar_1.3, y = mydata_1.3, label = mydata_1.3, 
+     pos = 3, cex = 0.7, col = c("red", "blue"))
 
 # 1.4
-par(mfrow = c(1, 3))
-pie(mydata_ex1$Proportion_2022, mydata_ex1$Proportion_2022, border = 'darkgreen', 
-    col = myCol, init.angle = 90, radius = 1, cex = 1)
-mtext("Nam 2022", side = 1, line = -7.5)
-mtext("Don vi: %", side = 1, adj = 0)
-pie(mydata_ex1$Proportion_2022, mydata_ex1$Proportion_2023, border = 'darkgreen', 
-    col = myCol, init.angle = 90, radius = 1, cex = 1)
-mtext("Nam 2023", side = 1, line = -7.5)
-plot.new()
-legend("right", mydata_ex1$Companies, fill = myCol)
 
+par(mfrow = c(1, 3))
+
+pie(mydata_ex1$Proportion_2022, mydata_ex1$Proportion_2022, col = mycol_1, 
+    border = 'darkgreen', init.angle = 90, cex = 0.5, radius = 1)
+mtext("2022", side = 1, line = -5)
+
+pie(mydata_ex1$Proportion_2023, mydata_ex1$Proportion_2023, col = mycol_1, 
+    border = 'darkgreen', init.angle = 90, cex = 0.5, radius = 1)
+mtext("2023", side = 1, line = -5)
+
+plot.new()
+legend("right", mydata_ex1$Companies, fill = mycol_1)
+
+mtext("Unit: %", side = 1)
 
 ##-----------------------------------------
 ## Bai 2:
-
-data02 <- read.csv('D:/DH/Học kì 2/TQHDL/lamphat.csv', header = T)
-
+mydata_ex2 <- read.csv('D:/DH/Học kì 2/TQHDL/Data/lamphat.csv', header = T)
 # 2.1
 
 country <- c("US", "UK", "Japan", "Germany")
-cnt1 <- 0
-cnt2 <- 0
-cnt3 <- 0
-cnt4 <- 0
-for (i in 1:length(data02$Year)) {
-  if (data02$US[i] >= 4.5)
-    cnt1 <- cnt1 + 1
-  if (data02$UK[i] >= 4.5)
-    cnt2 <- cnt2 + 1
-  if (data02$Japan[i] >= 4.5)
-    cnt3 <- cnt3 + 1
-  if (data02$Germany[i] >= 4.5)
-    cnt4 <- cnt4 + 1
+inflation_high <- c(0, 0, 0, 0)
+
+for (i in 1 : length(mydata_ex2$Year)) {
+  if (mydata_ex2$US[i] >= 4.5)
+    inflation_high[1] <- inflation_high[1] + 1
+  if (mydata_ex2$UK[i] >= 4.5)
+    inflation_high[2] <- inflation_high[2] + 1
+  if (mydata_ex2$Japan[i] >= 4.5)
+    inflation_high[3] <- inflation_high[3] + 1
+  if (mydata_ex2$Germany[i] >= 4.5)
+    inflation_high[4] <- inflation_high[4] + 1
 }
 
-# 2.1
-ex2_count <- data.frame(country, count = c(cnt1, cnt2, cnt3, cnt4))
+ex2_count <- data.frame(country, inflation_high)
 
 # 2.2
-cat("UK:\nTrung binh: ", mean(data02$UK), "\nPhuong sai: ", var(data02$UK)
-     , "\nTrung vi: ", median(data02$UK), "\nSai so chuan: ", 
-     sqrt(var(data02$UK)) / sqrt(length(data02$Year)))
-cat("Japan:\nTrung binh: ", mean(data02$Japan), "\nPhuong sai: ", var(data02$Japan)
-    , "\nTrung vi: ", median(data02$Japan), "\nSai so chuan: ", 
-    sqrt(var(data02$Japan)) / sqrt(length(data02$Year)))
+
+cat("Cac chi so ve ti le lam phat o UK:\nTrung binh: ", mean(mydata_ex2$UK), 
+    "\nPhuong sai: ", var(mydata_ex2$UK), "\nTrung vi: ", median(mydata_ex2$UK),
+    "\nSai so chuan: ", sqrt(var(mydata_ex2$UK)) / sqrt(length(mydata_ex2$Year)))
+
+cat("Cac chi so ve ti le lam phat o Japan:\nTrung binh: ", mean(mydata_ex2$Japan), 
+    "\nPhuong sai: ", var(mydata_ex2$Japan), "\nTrung vi: ", median(mydata_ex2$Japan),
+    "\nSai so chuan: ", sqrt(var(mydata_ex2$Japan)) / sqrt(length(mydata_ex2$Year)))
 
 # 2.3
+
 par(mfrow = c(2, 2))
-hist (data02$US, breaks = 20, freq = TRUE , col = 'lightblue ',
-      border ='darkgreen ', xlim = c(0, 28), ylim = c(0, 7),
-      xlab = "Ty le lam phat", main = "Ty le lam phat o US")
 
-hist (data02$UK, breaks = 20, freq = TRUE , col = 'lightblue ',
-      border ='darkgreen ', xlim = c(0, 28), ylim = c(0, 7),
-      xlab = "Ty le lam phat", main = "Ty le lam phat o UK")
+hist(mydata_ex2$US, breaks = 10, col = 'lightblue', freq = T, 
+     border = 'darkgreen', xlim = c(0, 30), ylim = c(0, 10), main = "Ty le lam phat US",
+     xlab = "Ty le (%)")
 
-hist (data02$Japan, breaks = 20, freq = TRUE , col = 'lightblue ',
-      border ='darkgreen ', xlim = c(0, 28), ylim = c(0, 7),
-      xlab = "Ty le lam phat", main = "Ty le lam phat o Japan")
+hist(mydata_ex2$UK, breaks = 10, col = 'lightblue', freq = T, 
+     border = 'darkgreen', xlim = c(0, 30), ylim = c(0, 10), main = "Ty le lam phat UK",
+     xlab = "Ty le (%)")
 
-hist (data02$Germany, breaks = 20, freq = TRUE , col = 'lightblue ',
-      border ='darkgreen ', xlim = c(0, 28), ylim = c(0, 7),
-      xlab = "Ty le lam phat", main = "Ty le lam phat o Germany")
+hist(mydata_ex2$Japan, breaks = 10, col = 'lightblue', freq = T, 
+     border = 'darkgreen', xlim = c(0, 30), ylim = c(0, 10), main = "Ty le lam phat Japan",
+     xlab = "Ty le (%)")
+
+hist(mydata_ex2$Germany, breaks = 10, col = 'lightblue', freq = T, 
+     border = 'darkgreen', xlim = c(0, 30), ylim = c(0, 10), main = "Ty le lam phat Germany",
+     xlab = "Ty le (%)")
 
 # 2.4
 
-mydata2.4 <- rbind(data02$US[11: 21], data02$Germany[11: 21])
-plot2.4 <- barplot(mydata2.4, names.arg = c(1970:1980),
-                   col = c("lavender","cornsilk"), beside = T, ylab = "Ty le (%)", 
-                   border = 'darkgreen', ylim = c(0, 15), 
-                   main = "Ty le lam phat giua US va Germany theo tung nam trong giai doan 1970-1980")
-text(x = plot2.4, y = mydata2.4, label = mydata2.4, pos = 3, cex = 0.65, col = "red2")
-legend(plot1.3[1, 1], 15, legend = c("My", "Duc"), horiz = T,
-       x.intersp=0.2, xpd=TRUE , bty="n", cex=1, fill=c("lavender","cornsilk"), 
-       text.width=1)
+mydata_2.4 <- rbind(mydata_ex2$US[11:21], mydata_ex2$Germany[11:21])
+mybar_2.4 <- barplot(mydata_2.4, names.arg = c(1970:1980), beside = T, 
+                     col = mycol_2, border = 'darkgreen', ylim = c(0, 20),
+                     ylab = "Ty le (%)", main = "Ty le lam phat o US va Germany tu 1970 - 1980")
+text(x = mybar_2.4, y = mydata_2.4, label = mydata_2.4, col = c("red", "blue"), 
+     cex = 0.6, pos = 3)
+legend(mybar_2.4[1, 1], 20, legend = c("US", "Germany"), 
+       horiz = F, fill = mycol_2, xpd = T, bty = "n", cex = 0.7)
 
 # 2.5
 
-boxplot(data02$US, data02$Germany, border = 'darkgreen', col = 'cornsilk', 
-        cex.axis = 1, ylim = c(0, 20), ylab = "Ty le (%)", 
-        main = "Ty le lam phat giua US va Germany")
+boxplot(mydata_ex2$US, mydata_ex2$Germany, ylim = c(0, 20),
+        border = 'darkgreen', col = 'cornsilk', ylab = "Ty le (%)")
 
 ##-----------------------------------------
 ## Bai 3:
 
-data_tips <- read.csv('D:/DH/Học kì 2/TQHDL/tips.csv', header = T)
+data_tips <- read.csv('D:/DH/Học kì 2/TQHDL/Data/tips.csv', header = T)
 unique(data_tips$day)
 
 # 3.1
 
-day <- c("Sun", "Sat", "Thur", "Fri")
-bill1 <- 0
-bill2 <- 0
-bill3 <- 0
-bill4 <- 0
-for (i in 1:length(data_tips$day)) {
-  if (data_tips$day[i] == "Sun")
-    bill1 <- bill1 + data_tips$total_bill[i]
-  if (data_tips$day[i] == "Sat")
-    bill2 <- bill2 + data_tips$total_bill[i]
+day <- c("Thur", "Fri", "Sat", "Sun")
+bill <- c(0, 0, 0, 0)
+
+for (i in 1 : length(data_tips$day)) {
   if (data_tips$day[i] == "Thur")
-    bill3 <- bill3 + data_tips$total_bill[i]
+    bill[1] <- bill[1] + data_tips$total_bill
   if (data_tips$day[i] == "Fri")
-    bill4 <- bill4 + data_tips$total_bill[i]
+    bill[2] <- bill[2] + data_tips$total_bill
+  if (data_tips$day[i] == "Sat")
+    bill[3] <- bill[3] + data_tips$total_bill
+  if (data_tips$day[i] == "Sun")
+    bill[4] <- bill[4] + data_tips$total_bill
 }
-bills_by_data <- data.frame(day = day, total_bill = c(bill1, bill2, bill3, bill4))
+
+bills_by_day <- data.frame(day, bill)
 
 # 3.2
-smoker <- 0
-noSomker <- 0
+smoker <- c("Yes", "No")
+bill <- c(0, 0)
 
-for (i in 1:length(data_tips$day)) {
+for (i in 1 : length(data_tips$day)) {
   if (data_tips$smoker[i] == "Yes")
-    smoker <- smoker + data_tips$total_bill[i]
+    bill[1] <- bill[1] + data_tips$total_bill
   if (data_tips$smoker[i] == "No")
-    noSomker <- noSomker + data_tips$total_bill[i]
+    bill[2] <- bill[2] + data_tips$total_bill
 }
-bills_by_smokers <- data.frame(smoker = c("Smoker", "No Smoker"), total_bill = c(smoker, noSomker))
+
+bills_by_smokers <- data.frame(smoker, bill)
 
 ##-----------------------------------------
 # #*****************************************
